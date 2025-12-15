@@ -1,0 +1,17 @@
+<h2>Login</h2>
+
+<form (ngSubmit)="onLogin()" #f="ngForm">
+  <div>
+    <label>Usuario</label>
+    <input [(ngModel)]="username" name="username" required />
+  </div>
+
+  <div>
+    <label>Password</label>
+    <input [(ngModel)]="password" name="password" type="password" required />
+  </div>
+
+  <button type="submit" [disabled]="f.invalid">Ingresar</button>
+
+  <p *ngIf="error" style="color:red">{{ error }}</p>
+</form>

@@ -1,0 +1,29 @@
+<h2>Admin</h2>
+<button (click)="logout()">Salir</button>
+
+<p *ngIf="error" style="color:red">{{ error }}</p>
+
+<div>
+  <label>Inicio:</label>
+  <input type="date" [(ngModel)]="fechaInicio" />
+  <label>Fin:</label>
+  <input type="date" [(ngModel)]="fechaFin" />
+</div>
+
+<button (click)="cargarReporte()">Cargar reporte puntualidad</button>
+<ul>
+  <li *ngFor="let x of puntualidad">
+    {{ x.nombres }} {{ x.apellidos }} | total: {{ x.totalRegistros }} | tardanza: {{ x.totalTardanza }} | %: {{ x.porcPuntualidad }}
+  </li>
+</ul>
+
+<hr />
+
+<button (click)="cargarPendientes()">Cargar pendientes</button>
+<ul>
+  <li *ngFor="let p of pendientes">
+    #{{ p.idJustificacion }} - {{ p.nombres }} {{ p.apellidos }} | {{ p.tipo }} | {{ p.estado }} | {{ p.fecSolicitud }}
+    <button (click)="cambiarEstado(p.idJustificacion, 'APROBADO')">Aprobar</button>
+    <button (click)="cambiarEstado(p.idJustificacion, 'RECHAZADO')">Rechazar</button>
+  </li>
+</ul>

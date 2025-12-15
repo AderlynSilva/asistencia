@@ -1,0 +1,19 @@
+<h2>Empleado</h2>
+<button (click)="logout()">Salir</button>
+
+<button (click)="cargar()">Cargar historial</button>
+
+<div style="margin-top:10px">
+  <label>Inicio:</label>
+  <input type="date" [(ngModel)]="fechaInicio" />
+  <label>Fin:</label>
+  <input type="date" [(ngModel)]="fechaFin" />
+</div>
+
+<p *ngIf="error" style="color:red">{{ error }}</p>
+
+<ul>
+  <li *ngFor="let x of data">
+    {{ x.fecha }} | {{ x.estado }} | checkin: {{ x.horaCheckin }} | checkout: {{ x.horaCheckout || '-' }}
+  </li>
+</ul>
