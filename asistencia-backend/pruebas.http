@@ -1,0 +1,118 @@
+### Registrar justificación
+POST http://localhost:8080/api/justificaciones
+Content-Type: application/json
+
+{
+  "idUsuario": 1,
+  "idAsistencia": 1,
+  "tipo": "TARDANZA",
+  "motivo": "Tráfico por accidente en la vía"
+}
+
+### Aprobar justificación
+PUT http://localhost:8080/api/justificaciones/1/estado?estado=APROBADA&usuarioRevisor=admin1
+
+### Reporte de puntualidad por empleado
+GET http://localhost:8080/api/reportes/puntualidad?fechaInicio=2025-12-10&fechaFin=2025-12-10
+
+### Reporte asistencias por periodo (todos)
+GET http://localhost:8080/api/reportes/asistencias?fechaInicio=2025-12-10&fechaFin=2025-12-12
+
+### Reporte asistencias por periodo (un usuario)
+GET http://localhost:8080/api/reportes/asistencias?fechaInicio=2025-12-10&fechaFin=2025-12-12&idUsuario=1
+
+
+### Justificaciones pendientes
+GET http://localhost:8080/api/justificaciones/pendientes
+
+### Login EMPLEADO
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "jperez",
+  "password": "123456"
+}
+
+
+### Historial (con token)
+GET http://localhost:8080/api/asistencia/historial?idUsuario=1&fechaInicio=2025-12-10&fechaFin=2025-12-12
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqcGVyZXoiLCJyb2wiOiJFTVBMRUFETyIsImlkVXN1YXJpbyI6MSwiaWF0IjoxNzY1NzQ3NjM2LCJleHAiOjE3NjU3NjIwMzZ9.i9CKzC3bElMqOUlzPQJQcI3MnR9nD2YMjYN8ogXhvd0
+
+
+### Reporte puntualidad (debería dar 403 con EMPLEADO)
+GET http://localhost:8080/api/reportes/puntualidad?fechaInicio=2025-12-10&fechaFin=2025-12-10
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqcGVyZXoiLCJyb2wiOiJFTVBMRUFETyIsImlkVXN1YXJpbyI6MSwiaWF0IjoxNzY1NzQ3NjM2LCJleHAiOjE3NjU3NjIwMzZ9.i9CKzC3bElMqOUlzPQJQcI3MnR9nD2YMjYN8ogXhvd0
+
+### Pendientes (debería dar 403 con EMPLEADO)
+GET http://localhost:8080/api/justificaciones/pendientes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqcGVyZXoiLCJyb2wiOiJFTVBMRUFETyIsImlkVXN1YXJpbyI6MSwiaWF0IjoxNzY1NzQ3NjM2LCJleHAiOjE3NjU3NjIwMzZ9.i9CKzC3bElMqOUlzPQJQcI3MnR9nD2YMjYN8ogXhvd0
+
+
+### Login ADMIN
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin123"
+}
+
+
+### A) Reporte de puntualidad - ADMIN (debe responder 200)
+GET http://localhost:8080/api/reportes/puntualidad?fechaInicio=2025-12-10&fechaFin=2025-12-10
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbCI6IkFETUlOIiwiaWRVc3VhcmlvIjoyLCJpYXQiOjE3NjU3NTQxNDksImV4cCI6MTc2NTc2ODU0OX0.ZBsYk_L_DV_ZuDQ3tJMPBjgLEhFnfiBOn1m58pUh-Zg
+
+
+### B) Justificaciones pendientes - ADMIN (debe responder 200)
+GET http://localhost:8080/api/justificaciones/pendientes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbCI6IkFETUlOIiwiaWRVc3VhcmlvIjoyLCJpYXQiOjE3NjU3NTQxNDksImV4cCI6MTc2NTc2ODU0OX0.ZBsYk_L_DV_ZuDQ3tJMPBjgLEhFnfiBOn1m58pUh-Zg
+
+
+### C) Reporte de puntualidad - EMPLEADO (debe responder 403)
+GET http://localhost:8080/api/reportes/puntualidad?fechaInicio=2025-12-10&fechaFin=2025-12-10
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqcGVyZXoiLCJyb2wiOiJFTVBMRUFETyIsImlkVXN1YXJpbyI6MSwiaWF0IjoxNzY1NzU0MzU3LCJleHAiOjE3NjU3Njg3NTd9.oK6pUceNdtGncav8pdHq38Oaheski-jQ3Dkrb2NlneY
+
+### D) Justificaciones pendientes - EMPLEADO (debe responder 403)
+GET http://localhost:8080/api/justificaciones/pendientes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqcGVyZXoiLCJyb2wiOiJFTVBMRUFETyIsImlkVXN1YXJpbyI6MSwiaWF0IjoxNzY1NzU0MzU3LCJleHAiOjE3NjU3Njg3NTd9.oK6pUceNdtGncav8pdHq38Oaheski-jQ3Dkrb2NlneY
+
+
+### Login EMPLEADO
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "jperez",
+  "password": "123456"
+}
+
+### Login ADMIN
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin123"
+}
+
+
+### Historial SIN token -> 401
+GET http://localhost:8080/api/asistencia/historial?idUsuario=1&fechaInicio=2025-12-10&fechaFin=2025-12-12
+### Historial con token EMPLEADO -> 200
+GET http://localhost:8080/api/asistencia/historial?idUsuario=1&fechaInicio=2025-12-10&fechaFin=2025-12-12
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqcGVyZXoiLCJyb2wiOiJFTVBMRUFETyIsImlkVXN1YXJpbyI6MSwiaWF0IjoxNzY1NzYwMDg2LCJleHAiOjE3NjU3NzQ0ODZ9.L8iaIU4osQMxAWBA_ljcVrfe9uQ5SCGlqsV986mcR_g
+
+### Reporte puntualidad con EMPLEADO -> 403
+GET http://localhost:8080/api/reportes/puntualidad?fechaInicio=2025-12-10&fechaFin=2025-12-10
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqcGVyZXoiLCJyb2wiOiJFTVBMRUFETyIsImlkVXN1YXJpbyI6MSwiaWF0IjoxNzY1NzYwMDg2LCJleHAiOjE3NjU3NzQ0ODZ9.L8iaIU4osQMxAWBA_ljcVrfe9uQ5SCGlqsV986mcR_g
+
+
+### Reporte puntualidad con ADMIN -> 200
+GET http://localhost:8080/api/reportes/puntualidad?fechaInicio=2025-12-10&fechaFin=2025-12-10
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbCI6IkFETUlOIiwiaWRVc3VhcmlvIjoyLCJpYXQiOjE3NjU3NjAxMjMsImV4cCI6MTc2NTc3NDUyM30.KtZLezsZjOqmNG0p8D6K3Oas5O8tRAHADxoQl8MnMgQ
+
+
+### Pendientes con ADMIN -> 200
+GET http://localhost:8080/api/justificaciones/pendientes
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsInJvbCI6IkFETUlOIiwiaWRVc3VhcmlvIjoyLCJpYXQiOjE3NjU3NjAxMjMsImV4cCI6MTc2NTc3NDUyM30.KtZLezsZjOqmNG0p8D6K3Oas5O8tRAHADxoQl8MnMgQ
